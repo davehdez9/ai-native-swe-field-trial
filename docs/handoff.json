@@ -1,0 +1,147 @@
+{
+  "schema_version": "0.5",
+  "project_id": "P9B-TRACKER",
+  "change_id": "P9B-001",
+  "task_id": "P9B-001-DUE-DATES",
+  "profile": "B",
+  "stage": "LC-08",
+  "gate": "G08",
+  "status": "READY_FOR_REVIEW",
+  "human_owner": {
+    "role": "EO",
+    "identifier": "UNASSIGNED"
+  },
+  "context": {
+    "repository_relative_root": ".",
+    "baseline_revision": "480fdfe41374f44290a4bc3858d17c2a6a9c54ac",
+    "required_files": [
+      "README.md",
+      "docs/task-contract.md",
+      "docs/implementation-plan.md",
+      "src/tracker.py",
+      "src/cli.py",
+      "tests/test_due_dates.py",
+      "tests/test_cli.py",
+      "docs/red-test-evidence.txt",
+      "docs/green-test-evidence.txt"
+    ],
+    "source_refs": [
+      "DEC-001",
+      "DEC-007",
+      "DEC-016"
+    ]
+  },
+  "scope": {
+    "allowed_paths": [
+      "src/tracker.py",
+      "src/cli.py",
+      "tests/test_due_dates.py",
+      "tests/test_cli.py",
+      "README.md",
+      "docs/"
+    ],
+    "forbidden_actions": [
+      "network requests",
+      "production deploys",
+      "read secrets",
+      "push remote changes",
+      "claim human approval",
+      "write outside task scope"
+    ],
+    "network": "NONE",
+    "production_access": false,
+    "secrets_access": false
+  },
+  "criteria": [
+    {
+      "id": "AC-001",
+      "requirement": "legacy JSON preserved",
+      "verification_id": "TEST-001"
+    },
+    {
+      "id": "AC-002",
+      "requirement": "optional strict ISO due dates",
+      "verification_id": "TEST-002"
+    },
+    {
+      "id": "AC-003",
+      "requirement": "deterministic overdue only for unfinished tasks",
+      "verification_id": "TEST-003"
+    },
+    {
+      "id": "AC-004",
+      "requirement": "corrupt records rejected without rewrite",
+      "verification_id": "TEST-004"
+    },
+    {
+      "id": "AC-005",
+      "requirement": "CLI supports add/list/complete/overdue",
+      "verification_id": "TEST-005"
+    },
+    {
+      "id": "AC-006",
+      "requirement": "red and green test evidence bound to git commits",
+      "verification_id": "TEST-006"
+    }
+  ],
+  "verification": [
+    {
+      "verification_id": "TEST-001",
+      "command": "python3 -m unittest discover -s tests -v",
+      "status": "PASS",
+      "evidence_path": "docs/green-test-evidence.txt",
+      "exit_code": 0
+    },
+    {
+      "verification_id": "TEST-002",
+      "command": "python3 -m unittest discover -s tests -v",
+      "status": "PASS",
+      "evidence_path": "docs/green-test-evidence.txt",
+      "exit_code": 0
+    },
+    {
+      "verification_id": "TEST-003",
+      "command": "python3 -m unittest discover -s tests -v",
+      "status": "PASS",
+      "evidence_path": "docs/green-test-evidence.txt",
+      "exit_code": 0
+    },
+    {
+      "verification_id": "TEST-004",
+      "command": "python3 -m unittest discover -s tests -v",
+      "status": "PASS",
+      "evidence_path": "docs/green-test-evidence.txt",
+      "exit_code": 0
+    },
+    {
+      "verification_id": "TEST-005",
+      "command": "python3 -m unittest discover -s tests -v",
+      "status": "PASS",
+      "evidence_path": "docs/green-test-evidence.txt",
+      "exit_code": 0
+    },
+    {
+      "verification_id": "TEST-006",
+      "command": "git archive red-tests + unittest (expected nonzero); current unittest (expected zero)",
+      "status": "PASS",
+      "evidence_path": "docs/red-test-evidence.txt",
+      "exit_code": 0
+    }
+  ],
+  "risks": [
+    "No customer interview or independent human review",
+    "No authenticated agent sandbox/CI",
+    "File save is not concurrency safe",
+    "No production release authorized"
+  ],
+  "next_action": {
+    "action": "Independent engineering owner to inspect diff/tests, execute acceptance and document approval outside self-authored files",
+    "receiver_role": "EO",
+    "reentry_stage": "LC-08"
+  },
+  "approval": {
+    "status": "PENDING",
+    "approved_by": null,
+    "evidence_path": null
+  }
+}

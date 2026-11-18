@@ -1,0 +1,14 @@
+{
+  "project_id": "P9B-TRACKER",
+  "change_id": "P9B-001",
+  "stage": "LC-08",
+  "gate": "G08",
+  "outcome": "BLOCKED",
+  "evidence_paths": [
+    "docs/green-test-evidence.txt",
+    "docs/handoff.json"
+  ],
+  "human_approver": null,
+  "reason": "Local test suite passes, but independent human owner review/authorization has not occurred. A self-authored gate file cannot grant approval.",
+  "next_stage": "LC-08"
+}
