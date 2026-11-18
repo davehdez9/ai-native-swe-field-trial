@@ -52,3 +52,9 @@ class TaskStore:
     def overdue(self,as_of):
         valid_date(as_of)
         return sorted((row for row in self.load() if not row['done'] and row.get('due_date') is not None and row['due_date'] < as_of),key=lambda r:(r['due_date'],r['id']))
+    def search(self,query):
+        """Read-only, literal, case-insensitive (casefold) title substring search in stored order."""
+        if not isinstance(query,str): raise TypeError('query must be a string')
+        if not query.strip(): raise ValueError('query must not be empty')
+        needle=query.casefold()
+        return [row for row in self.load() if needle in row['title'].casefold()]

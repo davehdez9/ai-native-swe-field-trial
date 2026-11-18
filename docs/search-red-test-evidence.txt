@@ -1,0 +1,422 @@
+Phase 9B.3 task search — RED (test-first) evidence
+==================================================
+Date:               2026-11-18
+Python:             Python 3.15.2
+Baseline revision:  1d5c477f762564ed9a5984b771174924d41bb2d8 (baseline run: Ran 31 tests, OK, exit=0)
+Red-test commit:    f4a7bfd6d904514470184d566b39e69ec77a3ec1
+                    "test: define task-search behavior before implementation"
+                    (tests/test_tracker.py, tests/test_cli.py, docs/task-search-contract.md)
+Code under test:    src/tracker.py and src/cli.py unchanged from baseline (no search implementation)
+Command (run in the terminal, no redirection or pipes):
+    python3 -B -m unittest discover -s tests -v
+    echo "exit=$?"
+Result:             Ran 58 tests — FAILED (failures=8, errors=26) — exit=1
+                    31 pre-existing tests: ok
+                    19 new unit tests (26 errors incl. subtests): AttributeError: 'TaskStore' object has no attribute 'search'
+                    8 new CLI tests: FAIL — argparse "invalid choice: 'search'"
+Note: this file was written after the red commit, so it is not part of that commit.
+Sandbox enforcement: NOT VERIFIED. Human review: PENDING. External CI: NOT RUN.
+
+---- verbatim stdout/stderr ----
+test_add_list_overdue_complete (test_cli.CLITests.test_add_list_overdue_complete) ... ok
+test_bad_date_exit_nonzero_and_no_file (test_cli.CLITests.test_bad_date_exit_nonzero_and_no_file) ... ok
+test_cli_overdue_unaffected_by_search (test_cli.CLITests.test_cli_overdue_unaffected_by_search) ... FAIL
+test_cli_search_corrupt_store_error (test_cli.CLITests.test_cli_search_corrupt_store_error) ... FAIL
+test_cli_search_dash_prefixed_query (test_cli.CLITests.test_cli_search_dash_prefixed_query) ... FAIL
+test_cli_search_empty_query_error (test_cli.CLITests.test_cli_search_empty_query_error) ... FAIL
+test_cli_search_missing_query_arg (test_cli.CLITests.test_cli_search_missing_query_arg) ... FAIL
+test_cli_search_missing_store_empty_array (test_cli.CLITests.test_cli_search_missing_store_empty_array) ... FAIL
+test_cli_search_no_match_empty_array (test_cli.CLITests.test_cli_search_no_match_empty_array) ... FAIL
+test_cli_search_returns_matches (test_cli.CLITests.test_cli_search_returns_matches) ... FAIL
+test_date_optional_and_preserved (test_due_dates.DueDateContractTests.test_date_optional_and_preserved) ... ok
+test_duplicate_id_still_denied_with_due_dates (test_due_dates.DueDateContractTests.test_duplicate_id_still_denied_with_due_dates) ... ok
+test_invalid_date_refused_without_write (test_due_dates.DueDateContractTests.test_invalid_date_refused_without_write) ... ok
+test_invalid_reference_date_refused (test_due_dates.DueDateContractTests.test_invalid_reference_date_refused) ... ok
+test_invalid_row_is_not_silently_rewritten (test_due_dates.DueDateContractTests.test_invalid_row_is_not_silently_rewritten) ... ok
+test_legacy_rows_read_and_query (test_due_dates.DueDateContractTests.test_legacy_rows_read_and_query) ... ok
+test_sort_boundary_and_completed (test_due_dates.DueDateContractTests.test_sort_boundary_and_completed) ... ok
+test_agent_reported_check (test_external_readiness.ExternalReadinessTests.test_agent_reported_check) ... ok
+test_baseline_observation (test_external_readiness.ExternalReadinessTests.test_baseline_observation) ... ok
+test_draft_pr (test_external_readiness.ExternalReadinessTests.test_draft_pr) ... ok
+test_failed_check (test_external_readiness.ExternalReadinessTests.test_failed_check) ... ok
+test_force_push_enabled (test_external_readiness.ExternalReadinessTests.test_force_push_enabled) ... ok
+test_missing_branch_protection (test_external_readiness.ExternalReadinessTests.test_missing_branch_protection) ... ok
+test_missing_human_review (test_external_readiness.ExternalReadinessTests.test_missing_human_review) ... ok
+test_missing_required_check (test_external_readiness.ExternalReadinessTests.test_missing_required_check) ... ok
+test_policy_detects_pr_target (test_external_readiness.ExternalReadinessTests.test_policy_detects_pr_target) ... ok
+test_policy_detects_unpinned_action (test_external_readiness.ExternalReadinessTests.test_policy_detects_unpinned_action) ... ok
+test_policy_detects_write_privilege (test_external_readiness.ExternalReadinessTests.test_policy_detects_write_privilege) ... ok
+test_policy_file_pass (test_external_readiness.ExternalReadinessTests.test_policy_file_pass) ... ok
+test_required_last_push_missing (test_external_readiness.ExternalReadinessTests.test_required_last_push_missing) ... ok
+test_self_approved (test_external_readiness.ExternalReadinessTests.test_self_approved) ... ok
+test_stale_review_commit (test_external_readiness.ExternalReadinessTests.test_stale_review_commit) ... ok
+test_stale_review_rule_missing (test_external_readiness.ExternalReadinessTests.test_stale_review_rule_missing) ... ok
+test_search_backslash_and_percent_literal (test_tracker.SearchTests.test_search_backslash_and_percent_literal) ... ERROR
+test_search_case_insensitive (test_tracker.SearchTests.test_search_case_insensitive) ...
+  test_search_case_insensitive (test_tracker.SearchTests.test_search_case_insensitive) (q='REVIEW') ... ERROR
+  test_search_case_insensitive (test_tracker.SearchTests.test_search_case_insensitive) (q='ReViEw') ... ERROR
+  test_search_case_insensitive (test_tracker.SearchTests.test_search_case_insensitive) (q='review') ... ERROR
+test_search_corrupt_json_rejected_without_rewrite (test_tracker.SearchTests.test_search_corrupt_json_rejected_without_rewrite) ... ERROR
+test_search_does_not_modify_file (test_tracker.SearchTests.test_search_does_not_modify_file) ... ERROR
+test_search_empty_query_rejected (test_tracker.SearchTests.test_search_empty_query_rejected) ...
+  test_search_empty_query_rejected (test_tracker.SearchTests.test_search_empty_query_rejected) (q='') ... ERROR
+  test_search_empty_query_rejected (test_tracker.SearchTests.test_search_empty_query_rejected) (q='   ') ... ERROR
+  test_search_empty_query_rejected (test_tracker.SearchTests.test_search_empty_query_rejected) (q='\t\n') ... ERROR
+test_search_includes_completed_and_incomplete (test_tracker.SearchTests.test_search_includes_completed_and_incomplete) ... ERROR
+test_search_invalid_query_type_rejected (test_tracker.SearchTests.test_search_invalid_query_type_rejected) ...
+  test_search_invalid_query_type_rejected (test_tracker.SearchTests.test_search_invalid_query_type_rejected) (q=None) ... ERROR
+  test_search_invalid_query_type_rejected (test_tracker.SearchTests.test_search_invalid_query_type_rejected) (q=12) ... ERROR
+  test_search_invalid_query_type_rejected (test_tracker.SearchTests.test_search_invalid_query_type_rejected) (q=b'x') ... ERROR
+  test_search_invalid_query_type_rejected (test_tracker.SearchTests.test_search_invalid_query_type_rejected) (q=['x']) ... ERROR
+test_search_invalid_record_rejected_without_rewrite (test_tracker.SearchTests.test_search_invalid_record_rejected_without_rewrite) ... ERROR
+test_search_legacy_row_without_due_date (test_tracker.SearchTests.test_search_legacy_row_without_due_date) ... ERROR
+test_search_missing_store_returns_empty (test_tracker.SearchTests.test_search_missing_store_returns_empty) ... ERROR
+test_search_no_match_returns_empty (test_tracker.SearchTests.test_search_no_match_returns_empty) ... ERROR
+test_search_partial_and_full_title (test_tracker.SearchTests.test_search_partial_and_full_title) ... ERROR
+test_search_preserves_stored_order (test_tracker.SearchTests.test_search_preserves_stored_order) ... ERROR
+test_search_query_not_stripped (test_tracker.SearchTests.test_search_query_not_stripped) ... ERROR
+test_search_returns_stored_shape (test_tracker.SearchTests.test_search_returns_stored_shape) ... ERROR
+test_search_rows_unchanged_by_search (test_tracker.SearchTests.test_search_rows_unchanged_by_search) ... ERROR
+test_search_special_characters_literal (test_tracker.SearchTests.test_search_special_characters_literal) ... ERROR
+test_search_substring_match (test_tracker.SearchTests.test_search_substring_match) ... ERROR
+test_search_unicode_casefold (test_tracker.SearchTests.test_search_unicode_casefold) ... ERROR
+test_corrupt_data_denied (test_tracker.TrackerTests.test_corrupt_data_denied) ... ok
+test_create_persist (test_tracker.TrackerTests.test_create_persist) ... ok
+test_duplicate_denied (test_tracker.TrackerTests.test_duplicate_denied) ... ok
+test_mark_done (test_tracker.TrackerTests.test_mark_done) ... ok
+test_missing_task_denied (test_tracker.TrackerTests.test_missing_task_denied) ... ok
+test_missing_title_denied (test_tracker.TrackerTests.test_missing_title_denied) ... ok
+
+======================================================================
+ERROR: test_search_backslash_and_percent_literal (test_tracker.SearchTests.test_search_backslash_and_percent_literal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_tracker.py", line 88, in test_search_backslash_and_percent_literal
+    self.assertEqual(self.ids(self.store.search('C:\\tmp')),['P1'])
+                              ^^^^^^^^^^^^^^^^^
+AttributeError: 'TaskStore' object has no attribute 'search'
+
+======================================================================
+ERROR: test_search_case_insensitive (test_tracker.SearchTests.test_search_case_insensitive) (q='REVIEW')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_tracker.py", line 36, in test_search_case_insensitive
+    with self.subTest(q=q): self.assertEqual(self.ids(self.store.search(q)),['T1','T3'])
+                                                      ^^^^^^^^^^^^^^^^^
+AttributeError: 'TaskStore' object has no attribute 'search'
+
+======================================================================
+ERROR: test_search_case_insensitive (test_tracker.SearchTests.test_search_case_insensitive) (q='ReViEw')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_tracker.py", line 36, in test_search_case_insensitive
+    with self.subTest(q=q): self.assertEqual(self.ids(self.store.search(q)),['T1','T3'])
+                                                      ^^^^^^^^^^^^^^^^^
+AttributeError: 'TaskStore' object has no attribute 'search'
+
+======================================================================
+ERROR: test_search_case_insensitive (test_tracker.SearchTests.test_search_case_insensitive) (q='review')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_tracker.py", line 36, in test_search_case_insensitive
+    with self.subTest(q=q): self.assertEqual(self.ids(self.store.search(q)),['T1','T3'])
+                                                      ^^^^^^^^^^^^^^^^^
+AttributeError: 'TaskStore' object has no attribute 'search'
+
+======================================================================
+ERROR: test_search_corrupt_json_rejected_without_rewrite (test_tracker.SearchTests.test_search_corrupt_json_rejected_without_rewrite)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_tracker.py", line 112, in test_search_corrupt_json_rejected_without_rewrite
+    with self.assertRaises(ValueError): self.store.search('x')
+                                        ^^^^^^^^^^^^^^^^^
+AttributeError: 'TaskStore' object has no attribute 'search'
+
+======================================================================
+ERROR: test_search_does_not_modify_file (test_tracker.SearchTests.test_search_does_not_modify_file)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_tracker.py", line 61, in test_search_does_not_modify_file
+    for q in ('review','zzz','Buy'): self.store.search(q)
+                                     ^^^^^^^^^^^^^^^^^
+AttributeError: 'TaskStore' object has no attribute 'search'
+
+======================================================================
+ERROR: test_search_empty_query_rejected (test_tracker.SearchTests.test_search_empty_query_rejected) (q='')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_tracker.py", line 95, in test_search_empty_query_rejected
+    with self.subTest(q=q), self.assertRaises(ValueError): self.store.search(q)
+                                                           ^^^^^^^^^^^^^^^^^
+AttributeError: 'TaskStore' object has no attribute 'search'
+
+======================================================================
+ERROR: test_search_empty_query_rejected (test_tracker.SearchTests.test_search_empty_query_rejected) (q='   ')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_tracker.py", line 95, in test_search_empty_query_rejected
+    with self.subTest(q=q), self.assertRaises(ValueError): self.store.search(q)
+                                                           ^^^^^^^^^^^^^^^^^
+AttributeError: 'TaskStore' object has no attribute 'search'
+
+======================================================================
+ERROR: test_search_empty_query_rejected (test_tracker.SearchTests.test_search_empty_query_rejected) (q='\t\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_tracker.py", line 95, in test_search_empty_query_rejected
+    with self.subTest(q=q), self.assertRaises(ValueError): self.store.search(q)
+                                                           ^^^^^^^^^^^^^^^^^
+AttributeError: 'TaskStore' object has no attribute 'search'
+
+======================================================================
+ERROR: test_search_includes_completed_and_incomplete (test_tracker.SearchTests.test_search_includes_completed_and_incomplete)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_tracker.py", line 50, in test_search_includes_completed_and_incomplete
+    rows=self.store.search('review')
+         ^^^^^^^^^^^^^^^^^
+AttributeError: 'TaskStore' object has no attribute 'search'
+
+======================================================================
+ERROR: test_search_invalid_query_type_rejected (test_tracker.SearchTests.test_search_invalid_query_type_rejected) (q=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_tracker.py", line 99, in test_search_invalid_query_type_rejected
+    with self.subTest(q=q), self.assertRaises(TypeError): self.store.search(q)
+                                                          ^^^^^^^^^^^^^^^^^
+AttributeError: 'TaskStore' object has no attribute 'search'
+
+======================================================================
+ERROR: test_search_invalid_query_type_rejected (test_tracker.SearchTests.test_search_invalid_query_type_rejected) (q=12)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_tracker.py", line 99, in test_search_invalid_query_type_rejected
+    with self.subTest(q=q), self.assertRaises(TypeError): self.store.search(q)
+                                                          ^^^^^^^^^^^^^^^^^
+AttributeError: 'TaskStore' object has no attribute 'search'
+
+======================================================================
+ERROR: test_search_invalid_query_type_rejected (test_tracker.SearchTests.test_search_invalid_query_type_rejected) (q=b'x')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_tracker.py", line 99, in test_search_invalid_query_type_rejected
+    with self.subTest(q=q), self.assertRaises(TypeError): self.store.search(q)
+                                                          ^^^^^^^^^^^^^^^^^
+AttributeError: 'TaskStore' object has no attribute 'search'
+
+======================================================================
+ERROR: test_search_invalid_query_type_rejected (test_tracker.SearchTests.test_search_invalid_query_type_rejected) (q=['x'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_tracker.py", line 99, in test_search_invalid_query_type_rejected
+    with self.subTest(q=q), self.assertRaises(TypeError): self.store.search(q)
+                                                          ^^^^^^^^^^^^^^^^^
+AttributeError: 'TaskStore' object has no attribute 'search'
+
+======================================================================
+ERROR: test_search_invalid_record_rejected_without_rewrite (test_tracker.SearchTests.test_search_invalid_record_rejected_without_rewrite)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_tracker.py", line 116, in test_search_invalid_record_rejected_without_rewrite
+    with self.assertRaises(ValueError): self.store.search('hi')
+                                        ^^^^^^^^^^^^^^^^^
+AttributeError: 'TaskStore' object has no attribute 'search'
+
+======================================================================
+ERROR: test_search_legacy_row_without_due_date (test_tracker.SearchTests.test_search_legacy_row_without_due_date)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_tracker.py", line 54, in test_search_legacy_row_without_due_date
+    rows=self.store.search('REVIEW')
+         ^^^^^^^^^^^^^^^^^
+AttributeError: 'TaskStore' object has no attribute 'search'
+
+======================================================================
+ERROR: test_search_missing_store_returns_empty (test_tracker.SearchTests.test_search_missing_store_returns_empty)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_tracker.py", line 107, in test_search_missing_store_returns_empty
+    self.assertEqual(self.store.search('anything'),[]);self.assertFalse(self.path.exists())
+                     ^^^^^^^^^^^^^^^^^
+AttributeError: 'TaskStore' object has no attribute 'search'
+
+======================================================================
+ERROR: test_search_no_match_returns_empty (test_tracker.SearchTests.test_search_no_match_returns_empty)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_tracker.py", line 109, in test_search_no_match_returns_empty
+    self.seed();self.assertEqual(self.store.search('zzz'),[])
+                                 ^^^^^^^^^^^^^^^^^
+AttributeError: 'TaskStore' object has no attribute 'search'
+
+======================================================================
+ERROR: test_search_partial_and_full_title (test_tracker.SearchTests.test_search_partial_and_full_title)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_tracker.py", line 43, in test_search_partial_and_full_title
+    self.assertEqual(self.ids(self.store.search('view')),['T1','T3'])
+                              ^^^^^^^^^^^^^^^^^
+AttributeError: 'TaskStore' object has no attribute 'search'
+
+======================================================================
+ERROR: test_search_preserves_stored_order (test_tracker.SearchTests.test_search_preserves_stored_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_tracker.py", line 72, in test_search_preserves_stored_order
+    self.assertEqual(self.ids(self.store.search('task')),['C','A','B'])
+                              ^^^^^^^^^^^^^^^^^
+AttributeError: 'TaskStore' object has no attribute 'search'
+
+======================================================================
+ERROR: test_search_query_not_stripped (test_tracker.SearchTests.test_search_query_not_stripped)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_tracker.py", line 102, in test_search_query_not_stripped
+    self.assertEqual(self.ids(self.store.search(' plan')),['T1'])
+                              ^^^^^^^^^^^^^^^^^
+AttributeError: 'TaskStore' object has no attribute 'search'
+
+======================================================================
+ERROR: test_search_returns_stored_shape (test_tracker.SearchTests.test_search_returns_stored_shape)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_tracker.py", line 76, in test_search_returns_stored_shape
+    self.assertEqual(self.store.search('review'),self.store.load())
+                     ^^^^^^^^^^^^^^^^^
+AttributeError: 'TaskStore' object has no attribute 'search'
+
+======================================================================
+ERROR: test_search_rows_unchanged_by_search (test_tracker.SearchTests.test_search_rows_unchanged_by_search)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_tracker.py", line 66, in test_search_rows_unchanged_by_search
+    self.seed();before=self.store.load();self.store.search('review')
+                                         ^^^^^^^^^^^^^^^^^
+AttributeError: 'TaskStore' object has no attribute 'search'
+
+======================================================================
+ERROR: test_search_special_characters_literal (test_tracker.SearchTests.test_search_special_characters_literal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_tracker.py", line 82, in test_search_special_characters_literal
+    self.assertEqual(self.store.search('a.c'),[])
+                     ^^^^^^^^^^^^^^^^^
+AttributeError: 'TaskStore' object has no attribute 'search'
+
+======================================================================
+ERROR: test_search_substring_match (test_tracker.SearchTests.test_search_substring_match)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_tracker.py", line 32, in test_search_substring_match
+    self.seed();self.assertEqual(self.ids(self.store.search('review')),['T1','T3'])
+                                          ^^^^^^^^^^^^^^^^^
+AttributeError: 'TaskStore' object has no attribute 'search'
+
+======================================================================
+ERROR: test_search_unicode_casefold (test_tracker.SearchTests.test_search_unicode_casefold)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_tracker.py", line 39, in test_search_unicode_casefold
+    self.assertEqual(self.ids(self.store.search('STRASSE')),['U1'])
+                              ^^^^^^^^^^^^^^^^^
+AttributeError: 'TaskStore' object has no attribute 'search'
+
+======================================================================
+FAIL: test_cli_overdue_unaffected_by_search (test_cli.CLITests.test_cli_overdue_unaffected_by_search)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_cli.py", line 60, in test_cli_overdue_unaffected_by_search
+    self.assertEqual(s.returncode,0,s.stderr);self.assertEqual([r['id'] for r in json.loads(s.stdout)],['T1'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 0 : usage: python3.15 -m src.cli [-h] --store STORE
+                             {add,complete,list,overdue} ...
+python3.15 -m src.cli: error: argument command: invalid choice: 'search' (choose from 'add', 'complete', 'list', 'overdue')
+
+
+======================================================================
+FAIL: test_cli_search_corrupt_store_error (test_cli.CLITests.test_cli_search_corrupt_store_error)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_cli.py", line 55, in test_cli_search_corrupt_store_error
+    self.assertEqual(p.returncode,2);self.assertTrue(p.stderr.startswith('error:'),p.stderr)
+                                     ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : usage: python3.15 -m src.cli [-h] --store STORE
+                             {add,complete,list,overdue} ...
+python3.15 -m src.cli: error: argument command: invalid choice: 'search' (choose from 'add', 'complete', 'list', 'overdue')
+
+
+======================================================================
+FAIL: test_cli_search_dash_prefixed_query (test_cli.CLITests.test_cli_search_dash_prefixed_query)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_cli.py", line 52, in test_cli_search_dash_prefixed_query
+    self.assertEqual(p.returncode,0,p.stderr);self.assertEqual([r['id'] for r in json.loads(p.stdout)],['T1'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 0 : usage: python3.15 -m src.cli [-h] --store STORE
+                             {add,complete,list,overdue} ...
+python3.15 -m src.cli: error: argument command: invalid choice: 'search' (choose from 'add', 'complete', 'list', 'overdue')
+
+
+======================================================================
+FAIL: test_cli_search_empty_query_error (test_cli.CLITests.test_cli_search_empty_query_error)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_cli.py", line 45, in test_cli_search_empty_query_error
+    self.assertEqual(p.returncode,2);self.assertTrue(p.stderr.startswith('error:'),p.stderr);self.assertEqual(p.stdout,'')
+                                     ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : usage: python3.15 -m src.cli [-h] --store STORE
+                             {add,complete,list,overdue} ...
+python3.15 -m src.cli: error: argument command: invalid choice: 'search' (choose from 'add', 'complete', 'list', 'overdue')
+
+
+======================================================================
+FAIL: test_cli_search_missing_query_arg (test_cli.CLITests.test_cli_search_missing_query_arg)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_cli.py", line 48, in test_cli_search_missing_query_arg
+    self.assertIn('--query',p.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: '--query' not found in "usage: python3.15 -m src.cli [-h] --store STORE\n                             {add,complete,list,overdue} ...\npython3.15 -m src.cli: error: argument command: invalid choice: 'search' (choose from 'add', 'complete', 'list', 'overdue')\n"
+
+======================================================================
+FAIL: test_cli_search_missing_store_empty_array (test_cli.CLITests.test_cli_search_missing_store_empty_array)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_cli.py", line 41, in test_cli_search_missing_store_empty_array
+    self.assertEqual(p.returncode,0,p.stderr);self.assertEqual(json.loads(p.stdout),[])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 0 : usage: python3.15 -m src.cli [-h] --store STORE
+                             {add,complete,list,overdue} ...
+python3.15 -m src.cli: error: argument command: invalid choice: 'search' (choose from 'add', 'complete', 'list', 'overdue')
+
+
+======================================================================
+FAIL: test_cli_search_no_match_empty_array (test_cli.CLITests.test_cli_search_no_match_empty_array)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_cli.py", line 38, in test_cli_search_no_match_empty_array
+    self.assertEqual(p.returncode,0,p.stderr);self.assertEqual(json.loads(p.stdout),[])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 0 : usage: python3.15 -m src.cli [-h] --store STORE
+                             {add,complete,list,overdue} ...
+python3.15 -m src.cli: error: argument command: invalid choice: 'search' (choose from 'add', 'complete', 'list', 'overdue')
+
+
+======================================================================
+FAIL: test_cli_search_returns_matches (test_cli.CLITests.test_cli_search_returns_matches)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/davidhernandez/Desktop/phase9b2-external-readiness/field-trial/personal-task-tracker-agent/tests/test_cli.py", line 33, in test_cli_search_returns_matches
+    self.assertEqual(p.returncode,0,p.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 0 : usage: python3.15 -m src.cli [-h] --store STORE
+                             {add,complete,list,overdue} ...
+python3.15 -m src.cli: error: argument command: invalid choice: 'search' (choose from 'add', 'complete', 'list', 'overdue')
+
+
+----------------------------------------------------------------------
+Ran 58 tests in 0.824s
+
+FAILED (failures=8, errors=26)
+exit=1
+---- end verbatim ----
