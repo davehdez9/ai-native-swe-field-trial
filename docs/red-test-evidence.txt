@@ -1,0 +1,91 @@
+commit=94a7e7e9c9b675e069fecfc3048e53732ad19893
+command=python3 -m unittest discover -s tests -v
+exit_code=1
+
+STDOUT:
+
+STDERR:
+test_add_list_overdue_complete (test_cli.CLITests.test_add_list_overdue_complete) ... FAIL
+test_bad_date_exit_nonzero_and_no_file (test_cli.CLITests.test_bad_date_exit_nonzero_and_no_file) ... ok
+test_date_optional_and_preserved (test_due_dates.DueDateContractTests.test_date_optional_and_preserved) ... ERROR
+test_duplicate_id_still_denied_with_due_dates (test_due_dates.DueDateContractTests.test_duplicate_id_still_denied_with_due_dates) ... ERROR
+test_invalid_date_refused_without_write (test_due_dates.DueDateContractTests.test_invalid_date_refused_without_write) ... ok
+test_invalid_reference_date_refused (test_due_dates.DueDateContractTests.test_invalid_reference_date_refused) ... ERROR
+test_invalid_row_is_not_silently_rewritten (test_due_dates.DueDateContractTests.test_invalid_row_is_not_silently_rewritten) ... ERROR
+test_legacy_rows_read_and_query (test_due_dates.DueDateContractTests.test_legacy_rows_read_and_query) ... ERROR
+test_sort_boundary_and_completed (test_due_dates.DueDateContractTests.test_sort_boundary_and_completed) ... ERROR
+test_corrupt_data_denied (test_tracker.TrackerTests.test_corrupt_data_denied) ... ok
+test_create_persist (test_tracker.TrackerTests.test_create_persist) ... ok
+test_duplicate_denied (test_tracker.TrackerTests.test_duplicate_denied) ... ok
+test_mark_done (test_tracker.TrackerTests.test_mark_done) ... ok
+test_missing_task_denied (test_tracker.TrackerTests.test_missing_task_denied) ... ok
+test_missing_title_denied (test_tracker.TrackerTests.test_missing_title_denied) ... ok
+
+======================================================================
+ERROR: test_date_optional_and_preserved (test_due_dates.DueDateContractTests.test_date_optional_and_preserved)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/phase9b-validation/field-pilot/personal-task-tracker/tests/test_due_dates.py", line 22, in test_date_optional_and_preserved
+    self.store.add('T2','Two','2026-11-17')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: TaskStore.add() takes 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_duplicate_id_still_denied_with_due_dates (test_due_dates.DueDateContractTests.test_duplicate_id_still_denied_with_due_dates)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/phase9b-validation/field-pilot/personal-task-tracker/tests/test_due_dates.py", line 52, in test_duplicate_id_still_denied_with_due_dates
+    self.store.add('x','Initial','2026-11-17')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: TaskStore.add() takes 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_invalid_reference_date_refused (test_due_dates.DueDateContractTests.test_invalid_reference_date_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/phase9b-validation/field-pilot/personal-task-tracker/tests/test_due_dates.py", line 43, in test_invalid_reference_date_refused
+    with self.assertRaises(ValueError): self.store.overdue('2026-02-30')
+                                        ^^^^^^^^^^^^^^^^^^
+AttributeError: 'TaskStore' object has no attribute 'overdue'
+
+======================================================================
+ERROR: test_invalid_row_is_not_silently_rewritten (test_due_dates.DueDateContractTests.test_invalid_row_is_not_silently_rewritten)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/phase9b-validation/field-pilot/personal-task-tracker/tests/test_due_dates.py", line 48, in test_invalid_row_is_not_silently_rewritten
+    with self.assertRaises(ValueError): self.store.overdue('2026-11-18')
+                                        ^^^^^^^^^^^^^^^^^^
+AttributeError: 'TaskStore' object has no attribute 'overdue'
+
+======================================================================
+ERROR: test_legacy_rows_read_and_query (test_due_dates.DueDateContractTests.test_legacy_rows_read_and_query)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/phase9b-validation/field-pilot/personal-task-tracker/tests/test_due_dates.py", line 16, in test_legacy_rows_read_and_query
+    self.assertEqual(self.store.overdue('2026-11-18'), [])
+                     ^^^^^^^^^^^^^^^^^^
+AttributeError: 'TaskStore' object has no attribute 'overdue'
+
+======================================================================
+ERROR: test_sort_boundary_and_completed (test_due_dates.DueDateContractTests.test_sort_boundary_and_completed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/phase9b-validation/field-pilot/personal-task-tracker/tests/test_due_dates.py", line 28, in test_sort_boundary_and_completed
+    self.store.add('B','Later','2026-11-17')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: TaskStore.add() takes 3 positional arguments but 4 were given
+
+======================================================================
+FAIL: test_add_list_overdue_complete (test_cli.CLITests.test_add_list_overdue_complete)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/data/phase9b-validation/field-pilot/personal-task-tracker/tests/test_cli.py", line 14, in test_add_list_overdue_complete
+    self.assertEqual(a.returncode,0,a.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : /opt/pyvenv/bin/python3: No module named src.cli
+
+
+----------------------------------------------------------------------
+Ran 15 tests in 3.422s
+
+FAILED (failures=1, errors=6)
