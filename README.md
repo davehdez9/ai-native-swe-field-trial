@@ -18,3 +18,8 @@ No cloud services, API credentials or production deployment. See `docs/` for tas
 - No automatic backup, access control, at-rest encryption, or scheduled reminder delivery.
 - Dates are calendar dates without time zones; `overdue` uses the explicitly provided `--as-of`.
 - JSON format is read-compatible with the Phase 9 baseline; writing a task does not rewrite legacy rows unless completing them.
+
+
+## Phase 9B.2 — external validation readiness
+
+`.github/workflows/verify.yml` is a proposed read-only verification workflow. Its presence **does not** mean GitHub rulesets or deployment IAM are configured. Run `python3 tools/validate_repo_policy.py` and `python3 -m unittest discover -s tests -v` locally. For real GitHub evidence follow [the field-validation procedure](docs/github-field-validation.md), and for actual coding-agent runtime checks use [the sandbox trial protocol](docs/coding-agent-field-test.md). All human approvals remain unsigned and pending.
