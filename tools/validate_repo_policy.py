@@ -3,8 +3,8 @@ from pathlib import Path
 import re, sys
 
 REPO = Path(__file__).resolve().parents[1]
-CHECKOUT = 'actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683'
-PYTHON = 'actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065'
+CHECKOUT = 'actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803'
+PYTHON = 'actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1'
 
 def verify_workflow(text):
     issues=[]

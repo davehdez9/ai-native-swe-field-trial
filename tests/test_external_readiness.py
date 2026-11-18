@@ -39,6 +39,6 @@ class ExternalReadinessTests(unittest.TestCase):
     def test_policy_detects_write_privilege(self):
         t=(REPO/'.github/workflows/verify.yml').read_text();self.assertTrue(verify_workflow(t+'\npermissions:\n  contents: write\n'))
     def test_policy_detects_unpinned_action(self):
-        t=(REPO/'.github/workflows/verify.yml').read_text();self.assertTrue(verify_workflow(t.replace('actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683','actions/checkout@v4')))
+        t=(REPO/'.github/workflows/verify.yml').read_text();self.assertTrue(verify_workflow(t.replace('actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803','actions/checkout@v4')))
     def test_policy_detects_pr_target(self):
         t=(REPO/'.github/workflows/verify.yml').read_text();self.assertTrue(verify_workflow(t+'\npull_request_target:\n'))
