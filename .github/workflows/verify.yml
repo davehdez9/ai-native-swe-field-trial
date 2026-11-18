@@ -1,0 +1,31 @@
+# Proposed PR verification. Merely adding this file does not protect the branch.
+# A trusted repository admin must configure rulesets, reviewer identities, and check origins.
+name: pilot-pr-verify
+on:
+  pull_request:
+  push:
+    branches: [main]
+  merge_group:
+permissions:
+  contents: read
+concurrency:
+  group: pilot-pr-verify-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  pilot-policy-and-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout untrusted code for test only
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Set Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.12'
+      - name: Verify policy expectations (not protected-enforcement evidence)
+        run: python3 tools/validate_repo_policy.py
+      - name: Unit tests
+        run: python3 -m unittest discover -s tests -v
+# No deployment, artifact upload, pull_request_target, OIDC or secrets in this workflow.
