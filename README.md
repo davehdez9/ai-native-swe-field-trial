@@ -20,6 +20,23 @@ No cloud services, API credentials or production deployment. See `docs/` for tas
 - JSON format is read-compatible with the Phase 9 baseline; writing a task does not rewrite legacy rows unless completing them.
 
 
+## Phase 9B.3: task search
+
+Search task titles, ignoring case, for a substring. Results include both completed and open tasks.
+
+```bash
+python3 -m src.cli --store /tmp/phase9b-tasks.json search --query review
+python3 -m src.cli --store /tmp/phase9b-tasks.json search --query=-x   # use = when the query starts with '-'
+```
+
+- Matching is literal: `.`, `*`, `(`, `\`, `%` and similar characters match only themselves.
+- Case is compared with `str.casefold()`, so `STRASSE` matches `Straße`. Locale-specific rules, such as Turkish dotted/dotless I, are not applied.
+- Results come back in stored file order, the same order as `list`. No match prints `[]` and exits 0.
+- An empty or whitespace-only query, or a corrupt store, prints `error: …` and exits 2.
+- Search is read-only and never rewrites the store. The JSON schema is unchanged.
+
+See [the task-search contract](docs/task-search-contract.md) and the red and green evidence files in `docs/`.
+
 ## Phase 9B.2 — external validation readiness
 
 `.github/workflows/verify.yml` is a proposed read-only verification workflow. Its presence **does not** mean GitHub rulesets or deployment IAM are configured. Run `python3 tools/validate_repo_policy.py` and `python3 -m unittest discover -s tests -v` locally. For real GitHub evidence follow [the field-validation procedure](docs/github-field-validation.md), and for actual coding-agent runtime checks use [the sandbox trial protocol](docs/coding-agent-field-test.md). All human approvals remain unsigned and pending.

@@ -1,0 +1,116 @@
+Phase 9B.3 task search: GREEN evidence
+======================================
+Date:               2026-11-18
+Python:             Python 3.15.2
+Builds on red commit: f4a7bfd6d904514470184d566b39e69ec77a3ec1 (red: Ran 58 tests, FAILED (failures=8, errors=26), exit=1)
+Implementation:     src/tracker.py adds TaskStore.search(query)
+                    src/cli.py adds the `search --query` subcommand; dispatch now uses explicit elif branches
+                    (implementation commit SHA is reported in the agent hand-off summary, because a file cannot contain its own commit SHA)
+Command (run in the terminal, no redirection or pipes):
+    python3 -B -m unittest discover -s tests -v
+    echo "exit=$?"
+Result:             Ran 58 tests, OK, exit=0
+
+---- verbatim test stdout/stderr ----
+test_add_list_overdue_complete (test_cli.CLITests.test_add_list_overdue_complete) ... ok
+test_bad_date_exit_nonzero_and_no_file (test_cli.CLITests.test_bad_date_exit_nonzero_and_no_file) ... ok
+test_cli_overdue_unaffected_by_search (test_cli.CLITests.test_cli_overdue_unaffected_by_search) ... ok
+test_cli_search_corrupt_store_error (test_cli.CLITests.test_cli_search_corrupt_store_error) ... ok
+test_cli_search_dash_prefixed_query (test_cli.CLITests.test_cli_search_dash_prefixed_query) ... ok
+test_cli_search_empty_query_error (test_cli.CLITests.test_cli_search_empty_query_error) ... ok
+test_cli_search_missing_query_arg (test_cli.CLITests.test_cli_search_missing_query_arg) ... ok
+test_cli_search_missing_store_empty_array (test_cli.CLITests.test_cli_search_missing_store_empty_array) ... ok
+test_cli_search_no_match_empty_array (test_cli.CLITests.test_cli_search_no_match_empty_array) ... ok
+test_cli_search_returns_matches (test_cli.CLITests.test_cli_search_returns_matches) ... ok
+test_date_optional_and_preserved (test_due_dates.DueDateContractTests.test_date_optional_and_preserved) ... ok
+test_duplicate_id_still_denied_with_due_dates (test_due_dates.DueDateContractTests.test_duplicate_id_still_denied_with_due_dates) ... ok
+test_invalid_date_refused_without_write (test_due_dates.DueDateContractTests.test_invalid_date_refused_without_write) ... ok
+test_invalid_reference_date_refused (test_due_dates.DueDateContractTests.test_invalid_reference_date_refused) ... ok
+test_invalid_row_is_not_silently_rewritten (test_due_dates.DueDateContractTests.test_invalid_row_is_not_silently_rewritten) ... ok
+test_legacy_rows_read_and_query (test_due_dates.DueDateContractTests.test_legacy_rows_read_and_query) ... ok
+test_sort_boundary_and_completed (test_due_dates.DueDateContractTests.test_sort_boundary_and_completed) ... ok
+test_agent_reported_check (test_external_readiness.ExternalReadinessTests.test_agent_reported_check) ... ok
+test_baseline_observation (test_external_readiness.ExternalReadinessTests.test_baseline_observation) ... ok
+test_draft_pr (test_external_readiness.ExternalReadinessTests.test_draft_pr) ... ok
+test_failed_check (test_external_readiness.ExternalReadinessTests.test_failed_check) ... ok
+test_force_push_enabled (test_external_readiness.ExternalReadinessTests.test_force_push_enabled) ... ok
+test_missing_branch_protection (test_external_readiness.ExternalReadinessTests.test_missing_branch_protection) ... ok
+test_missing_human_review (test_external_readiness.ExternalReadinessTests.test_missing_human_review) ... ok
+test_missing_required_check (test_external_readiness.ExternalReadinessTests.test_missing_required_check) ... ok
+test_policy_detects_pr_target (test_external_readiness.ExternalReadinessTests.test_policy_detects_pr_target) ... ok
+test_policy_detects_unpinned_action (test_external_readiness.ExternalReadinessTests.test_policy_detects_unpinned_action) ... ok
+test_policy_detects_write_privilege (test_external_readiness.ExternalReadinessTests.test_policy_detects_write_privilege) ... ok
+test_policy_file_pass (test_external_readiness.ExternalReadinessTests.test_policy_file_pass) ... ok
+test_required_last_push_missing (test_external_readiness.ExternalReadinessTests.test_required_last_push_missing) ... ok
+test_self_approved (test_external_readiness.ExternalReadinessTests.test_self_approved) ... ok
+test_stale_review_commit (test_external_readiness.ExternalReadinessTests.test_stale_review_commit) ... ok
+test_stale_review_rule_missing (test_external_readiness.ExternalReadinessTests.test_stale_review_rule_missing) ... ok
+test_search_backslash_and_percent_literal (test_tracker.SearchTests.test_search_backslash_and_percent_literal) ... ok
+test_search_case_insensitive (test_tracker.SearchTests.test_search_case_insensitive) ... ok
+test_search_corrupt_json_rejected_without_rewrite (test_tracker.SearchTests.test_search_corrupt_json_rejected_without_rewrite) ... ok
+test_search_does_not_modify_file (test_tracker.SearchTests.test_search_does_not_modify_file) ... ok
+test_search_empty_query_rejected (test_tracker.SearchTests.test_search_empty_query_rejected) ... ok
+test_search_includes_completed_and_incomplete (test_tracker.SearchTests.test_search_includes_completed_and_incomplete) ... ok
+test_search_invalid_query_type_rejected (test_tracker.SearchTests.test_search_invalid_query_type_rejected) ... ok
+test_search_invalid_record_rejected_without_rewrite (test_tracker.SearchTests.test_search_invalid_record_rejected_without_rewrite) ... ok
+test_search_legacy_row_without_due_date (test_tracker.SearchTests.test_search_legacy_row_without_due_date) ... ok
+test_search_missing_store_returns_empty (test_tracker.SearchTests.test_search_missing_store_returns_empty) ... ok
+test_search_no_match_returns_empty (test_tracker.SearchTests.test_search_no_match_returns_empty) ... ok
+test_search_partial_and_full_title (test_tracker.SearchTests.test_search_partial_and_full_title) ... ok
+test_search_preserves_stored_order (test_tracker.SearchTests.test_search_preserves_stored_order) ... ok
+test_search_query_not_stripped (test_tracker.SearchTests.test_search_query_not_stripped) ... ok
+test_search_returns_stored_shape (test_tracker.SearchTests.test_search_returns_stored_shape) ... ok
+test_search_rows_unchanged_by_search (test_tracker.SearchTests.test_search_rows_unchanged_by_search) ... ok
+test_search_special_characters_literal (test_tracker.SearchTests.test_search_special_characters_literal) ... ok
+test_search_substring_match (test_tracker.SearchTests.test_search_substring_match) ... ok
+test_search_unicode_casefold (test_tracker.SearchTests.test_search_unicode_casefold) ... ok
+test_corrupt_data_denied (test_tracker.TrackerTests.test_corrupt_data_denied) ... ok
+test_create_persist (test_tracker.TrackerTests.test_create_persist) ... ok
+test_duplicate_denied (test_tracker.TrackerTests.test_duplicate_denied) ... ok
+test_mark_done (test_tracker.TrackerTests.test_mark_done) ... ok
+test_missing_task_denied (test_tracker.TrackerTests.test_missing_task_denied) ... ok
+test_missing_title_denied (test_tracker.TrackerTests.test_missing_title_denied) ... ok
+
+----------------------------------------------------------------------
+Ran 58 tests in 0.814s
+
+OK
+exit=0
+---- end verbatim ----
+
+---- static policy checker (python3 -B tools/validate_repo_policy.py) ----
+PASS: local workflow-template checks only; live protection remains unverified
+exit=0
+
+---- CLI smoke test (store: <session scratchpad>/smoke-tasks.json, a fresh file) ----
+$ add --id T1 --title 'Review plan'
+{"done": false, "id": "T1", "title": "Review plan"}
+exit=0
+$ add --id T2 --title 'Buy milk' --due 2026-11-16
+{"done": false, "due_date": "2026-11-16", "id": "T2", "title": "Buy milk"}
+exit=0
+$ complete --id T1
+{"done": true, "id": "T1"}
+exit=0
+$ search --query REVIEW
+[{"done": true, "id": "T1", "title": "Review plan"}]
+exit=0
+$ search --query zzz
+[]
+exit=0
+$ search --query ''
+error: query must not be empty
+exit=2
+$ list
+[{"done": true, "id": "T1", "title": "Review plan"}, {"done": false, "due_date": "2026-11-16", "id": "T2", "title": "Buy milk"}]
+exit=0
+$ overdue --as-of 2026-11-18
+[{"done": false, "due_date": "2026-11-16", "id": "T2", "title": "Buy milk"}]
+exit=0
+
+---- boundary and approval status ----
+Sandbox enforcement: NOT VERIFIED. A worktree and loaded settings are not proof. One incidental observation
+  from this session: a Bash read of a harness tool-result file under ~/.claude/projects/ returned
+  "Operation not permitted". That single event is not a boundary test and does not establish enforcement.
+Human review: PENDING. External CI: NOT RUN (no network access). Nothing was pushed or merged.
+Local green tests are not approval.
